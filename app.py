@@ -12,16 +12,22 @@ from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env (especially openai api key)
 
 def main():
-    st.title("Finance Helper Tool")
-    st.sidebar.title("Article URLs")
-
+    st.title("LangChain Web App")
+    html_temp = """
+    <div style="background-color:blue;padding:10px">
+    <h2 style="color:white;text-align:center;">OpenAI Finance Tool</h2>
+    </div>
+    """
+    st.header('This app is created to help in reading the finance articles effectively')
+    st.markdown(html_temp,unsafe_allow_html=True)
     urls = []
+    st.sidebar.title("Article URLs")
     for i in range(3):
         url = st.sidebar.text_input(f"URL {i+1}")
         urls.append(url)
     
     process_url_clicked = st.sidebar.button("Process URLs")
-    file_path = "faiss_store_openai.pkl"
+    file_path = r"D:\sentimentanalyzer\Openapidemo\OpenAItool\faiss_store_openai.pkl"
     
     main_placeholder = st.empty()
     llm = OpenAI(temperature=0.8, max_tokens=500)
@@ -34,7 +40,10 @@ def main():
         # split data
         text_splitter = RecursiveCharacterTextSplitter(
             separators=['\n\n', '\n', '.', ','],
-            chunk_size=1000
+            chunk_size=600,
+            chunk_overlap  = 20,
+            length_function = len,
+            is_separator_regex = False,
         )
         main_placeholder.text("Text Splitter...Started...✅✅✅")
         docs = text_splitter.split_documents(data)
