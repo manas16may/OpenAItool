@@ -21,7 +21,7 @@ def main():
         urls.append(url)
     
     process_url_clicked = st.sidebar.button("Process URLs")
-    file_path = r"D:\sentimentanalyzer\Openapidemo\OpenAItool\faiss_store_openai.pkl"
+    file_path = "faiss_store_openai.pkl"
     
     main_placeholder = st.empty()
     llm = OpenAI(temperature=0.8, max_tokens=500)
